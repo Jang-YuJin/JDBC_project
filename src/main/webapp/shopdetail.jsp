@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="asset/header.css">
+<link rel="stylesheet" href="asset/footerStyle.css">
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>

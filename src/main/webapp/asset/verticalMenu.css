@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+#content{
+    display: flex;
+}
+
+#vMenu{
+    margin: 15px 100px;
+}
+
+#vMenu div{
+    width: 140px;
+}
+
+#vMenu ul{
+    list-style-type:none;
+}
+
+#vMenu li{
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+#imgContainer{
+    width: 1100px;
+}

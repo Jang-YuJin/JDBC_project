@@ -48,18 +48,26 @@
 	</section>
 
 	<section class="listImageContainer">
-		<div><div class="image">이미지</div>
-		<div class="image">이미지</div>
-		<div class="image">이미지</div></div>
-		<div><div class="image">이미지</div>
-		<div class="image">이미지</div>
-		<div class="image">이미지</div></div>
-		<div><div class="image">이미지</div>
-		<div class="image">이미지</div>
-		<div class="image">이미지</div></div>
-        <div><div class="image">이미지</div>
-		<div class="image">이미지</div>
-		<div class="image">이미지</div></div>
+		<div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+		</div>
+		<div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+		</div>
+		<div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+		</div>
+        <div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+			<div class="image">이미지</div>
+		</div>
 	</section>
 
 	<footer>
