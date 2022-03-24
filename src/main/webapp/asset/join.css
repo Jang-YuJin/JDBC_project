@@ -18,11 +18,15 @@ form{
     font-size: 18px;
 }
 
+form .birth{
+    width: 90px;
+}
+
 form input{
     margin-bottom: 20px;
 }
 
-form input[type="text"]{
+form .id, .name, .address, .tel{
     width: 300px;
 }
 

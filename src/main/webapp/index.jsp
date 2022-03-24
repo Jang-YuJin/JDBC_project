@@ -1,5 +1,12 @@
+<%@page import="project.shopController.ShopController"%>
+<%@page import="project.shopModel.ProductDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="project.shopService.ShopDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +18,17 @@
 <meta charset="UTF-8">
 <title>BANANAMILK</title>
 </head>
+<%
+	ShopDAO dao = new ShopDAO();
+	List<ProductDTO> list = dao.getProductList();
+	ShopController controller = new ShopController();
+	List<String> upperCode = controller.getUpperCode(list);
+	List<String> subCode = controller.getUpperCode(list);
+%>
+<c:set var="productList" value="<%= list %>"></c:set>
+<c:set var="productUpperCode" value="<%= upperCode %>"></c:set>
+<c:set var="productSubCode" value="<%= subCode %>"></c:set>
+
 <body>
 	<header>
 		<div id="headerContainer">
@@ -34,40 +52,27 @@
 
 	<nav>
 		<ul id="navi">
-			<li><a href="index.html">HOME</a></li>
-			<li><a href="#">OUTER</a></li>
-			<li><a href="#">TOP</a></li>
-			<li><a href="#">BOTTOM</a></li>
-			<li><a href="#">BAGS</a></li>
-			<li><a href="#">SHOES</a></li>
+			<li><a href="index.jsp">HOME</a></li>
+			<li><a href="shoplist.jsp?upperCategory=outer">OUTER</a></li>
+			<li><a href="shoplist.jsp?upperCategory=top">TOP</a></li>
+			<li><a href="shoplist.jsp?upperCategory=bottom">BOTTOM</a></li>
+			<li><a href="shoplist.jsp?upperCategory=bags">BAGS</a></li>
+			<li><a href="shoplist.jsp?upperCategory=shoes">SHOES</a></li>
 		</ul>
 	</nav>
 
 	<section>
-		<div id="promotion">프로모션 이미지</div>
+		<a href="shopdetail.jsp"><div id="promotion"></div></a>
 	</section>
 
 	<section class="listImageContainer">
-		<div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-		</div>
-		<div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-		</div>
-		<div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-		</div>
-        <div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-			<div class="image">이미지</div>
-		</div>
+		<c:forEach var="i" begin="1" end="4">
+			<div>
+				<a href="shopdetail.jsp"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[i] }/${ productList[i].representative }')"></div></a>
+				<a href="shopdetail.jsp"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[4 + i] }/${ productList[4 + i].representative }')"></div></a>
+				<a href="shopdetail.jsp"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[8 + i] }/${ productList[8 + i].representative }')"></div></a>
+			</div>
+		</c:forEach>
 	</section>
 
 	<footer>

@@ -1,58 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" href="asset/header.css">
-<link rel="stylesheet" href="asset/footerStyle.css">
-
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<header>
-		<div>
-			<span><a href="index.jsp"><img src="asset/logo240x36B.png"></a></span>
-			<span>로그인 | <a>회원가입</a> | 마이페이지 | 장바구니 | 주문조회
-			</span> <span><input type="text" name="search"> <input
-				type="submit"></span>
-		</div>
-	</header>
-
-	<nav>
-		<ul>
-			<li>HOME</li>
-			<li>OUTER</li>
-			<li>TOP</li>
-			<li>BOTTOM</li>
-			<li>BAGS</li>
-			<li>SHOES</li>
-		</ul>
-	</nav>
+    <head>
+        <link rel="stylesheet" href="asset/header.css">
+        <link rel="stylesheet" href="asset/shopDetail.css">
+        <link rel="stylesheet" href="asset/footerStyle.css">
+        
+        <meta charset="UTF-8">
+        <title>BANANAMILK</title>
+        </head>
+        <body>
+            <header>
+                <div id="headerContainer">
+                    <div id="headerLogo"><a href="index.jsp"><img src="asset/logo240x36B.png"></a></div>
+                    <div id="headerRight">
+                        <div id="headerMenu">
+                            <a href="#">로그인</a> | 
+                            <a href="member/join.jsp">회원가입</a> | 
+                            <a href="#">마이페이지</a> | 
+                            <a href="#">장바구니 | 
+                            <a href="#">주문조회</a></div>
+                        <div id="searchContainer">
+                            <form>
+                                <input id="searchBlock" type="text" name="search">
+                                <input id="searchBtn" type="submit" value="검색">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        
+            <nav>
+                <ul id="navi">
+                    <li><a href="index.jsp">HOME</a></li>
+                    <li><a href="#">OUTER</a></li>
+                    <li><a href="#">TOP</a></li>
+                    <li><a href="#">BOTTOM</a></li>
+                    <li><a href="#">BAGS</a></li>
+                    <li><a href="#">SHOES</a></li>
+                </ul>
+            </nav>
+    
+    <section id="top">
+        <div id="imgTitle">
+            제품 대표 이미지
+        </div>
+        
+        <div id="imgDesc">
+            <div id="productName">
+                제품명
+            </div>
+            <div id="productPrice">
+                가격
+            </div>
+            <div id="productBtn">
+                <a id="purchase" href="#"><div>구매하기</div></a>
+                <a  id="shoppingBasket" href="#"><div>장바구니</div></a>
+            </div>
+        </div>
+    </section>
 	
-	<div>
-		제품 대표 이미지
-	</div>
-	
-	<section>
-		<div>
-			제품명
-		</div>
-		<div>
-			가격
-		</div>
-		<div>
-			<div><a href="#">구매하기</a></div>
-			<div><a href="#">장바구니</a></div>
-		</div>
-	</section>
-	
-	<section>
+	<section id="imgDetail">
 		제품 상세 이미지
 	</section>
 
-	<section>
-		<table>
+	<section id="reviewContainer">
+		<table class="tableList">
 			<tr>
 				<th colspan="2">리뷰</th>
 			</tr>
@@ -77,22 +90,22 @@
 				<td>리뷰입니다.</td>
 			</tr>
 		</table>
-		<div>< 1 / 3 ></div>
-		<a href="#">리뷰작성</a>
+		<div class="tablePage"><a class="preBtn" href="#">이전</a> 1 / 3 <a class="nextBtn" href="#">다음</a></div>
+        <a class="wrtieBtn" href="#">리뷰작성</a>
 	</section>
 		
 	<footer>
-		<div>
+		<div id="intro">
 			ⓒBANANAMILK<br> 
 			대표자 : 장유진<br> 
 			청주시 청원구 오창과학단지<br>
 			043-1234-1234
 		</div>
-		<div>
+		<div id="info">
 			영업시간<br> 
 			평일 09:00 ~ 18:00<br> 
 			토요일 09:00 ~ 15:00<br> 
-			<a>입점</a>
+			<a href="#">입점</a>
 		</div>
 	</footer>
 </body>
