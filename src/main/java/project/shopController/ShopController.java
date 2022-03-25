@@ -29,5 +29,17 @@ public class ShopController {
 		}
 
 		return subCode;
-	}	
+	}
+	
+	public List<String> getNumCode(List<ProductDTO> dto){
+		List<String> numCode = new ArrayList<>();
+		String[] code = new String[3];
+		
+		for(int i = 0; i < dto.size(); i++) {
+			code = dto.get(i).getCode().split("_");
+			numCode.add(code[2]);
+		}
+
+		return numCode;
+	}
 }

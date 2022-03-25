@@ -65,7 +65,41 @@ public class ShopDAO {
 		return list;
 	}
 	
-	public int setMemberInfo(MemberDTO dto) {
+	public List<ProductDTO> getProductList(String code){ //tb_product의 특정 코드에 해당하는 레코드를 list에 저장
+		List<ProductDTO> list = new ArrayList<>();
+		System.out.println(code);
+		try {
+			con = dataFactory.getConnection();
+			
+			String query = "select * from tb_product_p where code like '%" + code + "%'";
+			pstmt = con.prepareStatement(query);
+//			pstmt.setString(1, code);
+			ResultSet result = pstmt.executeQuery();
+			while(result.next()) {
+				ProductDTO dto = new ProductDTO();
+				dto.setCode(result.getString("code"));
+				dto.setName(result.getString("name"));
+				dto.setPrice(result.getInt("price"));
+				dto.setRepresentative(result.getString("representative"));
+				dto.setDetails(result.getString("details"));
+				list.add(dto);
+			}
+			if(result != null) {
+				result.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public int setMemberInfo(MemberDTO dto) { //member테이블에 저장
 		int result = -10;
 		try {
 			con = dataFactory.getConnection();

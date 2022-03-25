@@ -33,11 +33,11 @@
             <nav>
                 <ul id="navi">
                     <li><a href="index.jsp">HOME</a></li>
-                    <li><a href="#">OUTER</a></li>
-                    <li><a href="#">TOP</a></li>
-                    <li><a href="#">BOTTOM</a></li>
-                    <li><a href="#">BAGS</a></li>
-                    <li><a href="#">SHOES</a></li>
+					<li><a href="shoplist.jsp?upperCategory=outer">OUTER</a></li>
+					<li><a href="shoplist.jsp?upperCategory=top">TOP</a></li>
+					<li><a href="shoplist.jsp?upperCategory=bottom">BOTTOM</a></li>
+					<li><a href="shoplist.jsp?upperCategory=bag">BAG</a></li>
+					<li><a href="shoplist.jsp?upperCategory=shoes">SHOES</a></li>
                 </ul>
             </nav>
     

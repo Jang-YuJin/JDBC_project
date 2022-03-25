@@ -1,5 +1,12 @@
+<%@page import="project.shopController.ShopController"%>
+<%@page import="project.shopModel.ProductDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="project.shopService.ShopDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +17,33 @@
 <meta charset="UTF-8">
 <title>BANANAMILK</title>
 </head>
+<%
+	ShopDAO dao = new ShopDAO();
+	List<ProductDTO> list = dao.getProductList();
+	ShopController controller = new ShopController();
+	List<String> upperCode = controller.getUpperCode(list);
+	List<String> subCode = controller.getSubCode(list);
+	List<String> numCode = controller.getNumCode(list);
+	
+	String upper = request.getParameter("upperCategory");
+	System.out.println("upper : " + upper);
+	String sub = request.getParameter("subCategory");
+	String code = "";
+	if(!"".equals(upper) && upper != null){
+		code += upper;
+	}
+	if(!"".equals(sub) && sub != null){
+		code += ("_" + sub);
+	}
+	List<ProductDTO> codeList = dao.getProductList(code);
+%>
+<c:set var="productList" value="<%= list %>"></c:set>
+<c:set var="productUpperCode" value="<%= upperCode %>"></c:set>
+<c:set var="productSubCode" value="<%= subCode %>"></c:set>
+<c:set var="productNumCode" value="<%= numCode %>"></c:set>
+<c:set var="upper" value="<%= upper %>"></c:set>
+<c:set var="sub" value="<%= sub %>"></c:set>
+<c:set var="productCode" value="<%= codeList %>"></c:set>
 <body>
 	<header>
 		<div id="headerContainer">
@@ -33,138 +67,81 @@
 
 	<nav>
 		<ul id="navi">
-			<li><a href="index.html">HOME</a></li>
-			<li><a href="#">OUTER</a></li>
-			<li><a href="#">TOP</a></li>
-			<li><a href="#">BOTTOM</a></li>
-			<li><a href="#">BAGS</a></li>
-			<li><a href="#">SHOES</a></li>
+			<li><a href="index.jsp">HOME</a></li>
+			<li><a href="shoplist.jsp?upperCategory=outer">OUTER</a></li>
+			<li><a href="shoplist.jsp?upperCategory=top">TOP</a></li>
+			<li><a href="shoplist.jsp?upperCategory=bottom">BOTTOM</a></li>
+			<li><a href="shoplist.jsp?upperCategory=bag">BAG</a></li>
+			<li><a href="shoplist.jsp?upperCategory=shoes">SHOES</a></li>
 		</ul>
 	</nav>
 
 	<div id="content">
         <section id="vMenu">
             <div>
-                <div><a class="upper" href="#">OUTER</a></div>
+                <div><a class="upper" href="shoplist.jsp?upperCategory=outer">OUTER</a></div>
                 <ul>
-                    <li><a class="sub" href="#">자켓</a></li>
-                    <li><a class="sub" href="#">코트</a></li>
-                    <li><a class="sub" href="#">패딩</a></li>
-                    <li><a class="sub" href="#">점퍼</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=outer&subCategory=jk">자켓</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=outer&subCategory=ct">코트</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=outer&subCategory=pd">패딩</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=outer&subCategory=jp">점퍼</a></li>
                 </ul>
             </div>
             <div>
-                <div><a class="upper" href="#">TOP</a></div>
+                <div><a class="upper" href="shoplist.jsp?upperCategory=top">TOP</a></div>
                 <ul>
-                    <li><a class="sub" href="#">반팔</a></li>
-                    <li><a class="sub" href="#">긴팔</a></li>
-                    <li><a class="sub" href="#">후드티</a></li>
-                    <li><a class="sub" href="#">맨투맨</a></li>
-                    <li><a class="sub" href="#">셔츠</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=top&subCategory=ss">반팔</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=top&subCategory=ls">긴팔</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=top&subCategory=hd">후드티</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=top&subCategory=mm">맨투맨</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=top&subCategory=sh">셔츠</a></li>
                 </ul>
             </div>
             <div>
-                <div><a class="upper" href="#">BOTTOM</a></div>
+                <div><a class="upper" href="shoplist.jsp?upperCategory=bottom">BOTTOM</a></div>
                 <ul>
-                    <li><a class="sub" href="#">데님</a></li>
-                    <li><a class="sub" href="#">슬랙스</a></li>
-                    <li><a class="sub" href="#">숏팬츠</a></li>
-                    <li><a class="sub" href="#">스커트</a></li>
-                    <li><a class="sub" href="#">조거</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bottom&subCategory=dn">데님</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bottom&subCategory=sl">슬랙스</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bottom&subCategory=sp">숏팬츠</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bottom&subCategory=sk">스커트</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bottom&subCategory=jg">조거</a></li>
                 </ul>
             </div>
             <div>
-                <div><a class="upper" href="#">BAGS</a></div>
+                <div><a class="upper" href="shoplist.jsp?upperCategory=bag">BAG</a></div>
                 <ul>
-                    <li><a class="sub" href="#">백팩</a></li>
-                    <li><a class="sub" href="#">크로스백</a></li>
-                    <li><a class="sub" href="#">에코백</a></li>
-                    <li><a class="sub" href="#">숄더백</a></li>
-                    <li><a class="sub" href="#">토드백</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bag&subCategory=bp">백팩</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bag&subCategory=cb">크로스백</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bag&subCategory=ec">에코백</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bag&subCategory=sb">숄더백</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=bag&subCategory=td">토드백</a></li>
                 </ul>
             </div>
             <div>
-                <div><a class="upper" href="#">SHOES</a></div>
+                <div><a class="upper" href="shoplist.jsp?upperCategory=shoes">SHOES</a></div>
                 <ul>
-                    <li><a class="sub" href="#">운동화</a></li>
-                    <li><a class="sub" href="#">로퍼</a></li>
-                    <li><a class="sub" href="#">부츠</a></li>
-                    <li><a class="sub" href="#">샌들</a></li>
-                    <li><a class="sub" href="#">구두</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=shoes&subCategory=sn">운동화</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=shoes&subCategory=lp">로퍼</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=shoes&subCategory=bt">부츠</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=shoes&subCategory=sd">샌들</a></li>
+                    <li><a class="sub" href="shoplist.jsp?upperCategory=shoes&subCategory=hl">구두</a></li>
                 </ul>
             </div>
         </section>
         
         <section id="imgContainer">
             <div class="listImageContainer">
-                <div>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                </div>
-                <div>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                </div>
-                <div>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                </div>
-                <div>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                    <a class="product" href="#">
-                        <div class="image"></div>
-                        <div>상품명</div>
-                        <div>가격</div>
-                    </a>
-                </div>
+            	<c:forEach var="i" begin="0" end="3" step="1">
+	                <div>
+		                <c:forEach var="k" begin="${ i * 3 }" end="${ i + 2 }" step="1">
+		                    <a class="product" href="#">
+		                        <div class="image" style="background-image: url('./asset/img/${ upper }/${ productCode[k].representative }')"></div>
+		                        <div>${ productCode[k].name }</div>
+		                        <div>${ productCode[k].price }원</div>
+		                    </a>
+		                </c:forEach>
+	                </div>
+                </c:forEach>
             </div>
         </section>
     </div>

@@ -23,11 +23,13 @@
 	List<ProductDTO> list = dao.getProductList();
 	ShopController controller = new ShopController();
 	List<String> upperCode = controller.getUpperCode(list);
-	List<String> subCode = controller.getUpperCode(list);
+	List<String> subCode = controller.getSubCode(list);
+	List<String> numCode = controller.getNumCode(list);
 %>
 <c:set var="productList" value="<%= list %>"></c:set>
 <c:set var="productUpperCode" value="<%= upperCode %>"></c:set>
 <c:set var="productSubCode" value="<%= subCode %>"></c:set>
+<c:set var="productNumCode" value="<%= numCode %>"></c:set>
 
 <body>
 	<header>
@@ -56,7 +58,7 @@
 			<li><a href="shoplist.jsp?upperCategory=outer">OUTER</a></li>
 			<li><a href="shoplist.jsp?upperCategory=top">TOP</a></li>
 			<li><a href="shoplist.jsp?upperCategory=bottom">BOTTOM</a></li>
-			<li><a href="shoplist.jsp?upperCategory=bags">BAGS</a></li>
+			<li><a href="shoplist.jsp?upperCategory=bag">BAG</a></li>
 			<li><a href="shoplist.jsp?upperCategory=shoes">SHOES</a></li>
 		</ul>
 	</nav>
@@ -68,9 +70,9 @@
 	<section class="listImageContainer">
 		<c:forEach var="i" begin="1" end="4">
 			<div>
-				<a href="shopdetail.jsp"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[i] }/${ productList[i].representative }')"></div></a>
-				<a href="shopdetail.jsp"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[4 + i] }/${ productList[4 + i].representative }')"></div></a>
-				<a href="shopdetail.jsp"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[8 + i] }/${ productList[8 + i].representative }')"></div></a>
+				<a href="shopdetail.jsp?upperCategory=${ productUpperCode[i] }&subCategory=${ productSubCode[i] }&numCategory=${ productNumCode[i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[i] }/${ productList[i].representative }')"></div></a>
+				<a href="shopdetail.jsp?upperCategory=${ productUpperCode[4 + i] }&subCategory=${ productSubCode[4 + i] }&numCategory=${ productNumCode[4 + i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[4 + i] }/${ productList[4 + i].representative }')"></div></a>
+				<a href="shopdetail.jsp?upperCategory=${ productUpperCode[8 + i] }&subCategory=${ productSubCode[8 + i] }&numCategory=${ productNumCode[8 + i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[8 + i] }/${ productList[8 + i].representative }')"></div></a>
 			</div>
 		</c:forEach>
 	</section>
