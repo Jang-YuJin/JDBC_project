@@ -7,7 +7,7 @@ import project.shopModel.ProductDTO;
 
 public class ShopController {
 
-	public List<String> getUpperCode(List<ProductDTO> dto){
+	public List<String> getUpperCode(List<ProductDTO> dto){//product테이블 code에 상위카테고리(outer, top...)만 list로 뽑음
 		List<String> upperCode = new ArrayList<>();
 		String[] code = new String[3];
 		
@@ -19,7 +19,7 @@ public class ShopController {
 		return upperCode;
 	}
 	
-	public List<String> getSubCode(List<ProductDTO> dto){
+	public List<String> getSubCode(List<ProductDTO> dto){//product테이블 code에 하위카테고리(jk, ct...)만 list로 뽑음
 		List<String> subCode = new ArrayList<>();
 		String[] code = new String[3];
 		
@@ -31,7 +31,7 @@ public class ShopController {
 		return subCode;
 	}
 	
-	public List<String> getNumCode(List<ProductDTO> dto){
+	public List<String> getNumCode(List<ProductDTO> dto){////product테이블 code에 숫자만 list로 뽑음
 		List<String> numCode = new ArrayList<>();
 		String[] code = new String[3];
 		

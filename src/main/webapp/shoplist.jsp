@@ -25,6 +25,7 @@
 	List<String> subCode = controller.getSubCode(list);
 	List<String> numCode = controller.getNumCode(list);
 	
+	//여기서부터
 	String upper = request.getParameter("upperCategory");
 	System.out.println("upper : " + upper);
 	String sub = request.getParameter("subCategory");
@@ -35,6 +36,8 @@
 	if(!"".equals(sub) && sub != null){
 		code += ("_" + sub);
 	}
+	//여기까지 메소드로 만들지 고민 좀...
+	
 	List<ProductDTO> codeList = dao.getProductList(code);
 %>
 <c:set var="productList" value="<%= list %>"></c:set>
@@ -133,8 +136,8 @@
             <div class="listImageContainer">
             	<c:forEach var="i" begin="0" end="3" step="1">
 	                <div>
-		                <c:forEach var="k" begin="${ i * 3 }" end="${ i + 2 }" step="1">
-		                    <a class="product" href="#">
+		                <c:forEach var="k" begin="${ (i * 3) + 1 }" end="${ (i + 1) * 3 }" step="1">
+		                    <a class="product" href="shopdetail.jsp?code=${ productCode[k].code }">
 		                        <div class="image" style="background-image: url('./asset/img/${ upper }/${ productCode[k].representative }')"></div>
 		                        <div>${ productCode[k].name }</div>
 		                        <div>${ productCode[k].price }원</div>

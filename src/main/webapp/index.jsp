@@ -70,9 +70,9 @@
 	<section class="listImageContainer">
 		<c:forEach var="i" begin="1" end="4">
 			<div>
-				<a href="shopdetail.jsp?upperCategory=${ productUpperCode[i] }&subCategory=${ productSubCode[i] }&numCategory=${ productNumCode[i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[i] }/${ productList[i].representative }')"></div></a>
-				<a href="shopdetail.jsp?upperCategory=${ productUpperCode[4 + i] }&subCategory=${ productSubCode[4 + i] }&numCategory=${ productNumCode[4 + i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[4 + i] }/${ productList[4 + i].representative }')"></div></a>
-				<a href="shopdetail.jsp?upperCategory=${ productUpperCode[8 + i] }&subCategory=${ productSubCode[8 + i] }&numCategory=${ productNumCode[8 + i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[8 + i] }/${ productList[8 + i].representative }')"></div></a>
+				<a href="shopdetail.jsp?code=${ productUpperCode[i] }_${ productSubCode[i] }_${ productNumCode[i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[i] }/${ productList[i].representative }')"></div></a>
+				<a href="shopdetail.jsp?code=${ productUpperCode[4 + i] }_${ productSubCode[4 + i] }_${ productNumCode[4 + i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[4 + i] }/${ productList[4 + i].representative }')"></div></a>
+				<a href="shopdetail.jsp?code=${ productUpperCode[8 + i] }_${ productSubCode[8 + i] }_${ productNumCode[8 + i] }"><div class="image" style="background-image: url('./asset/img/${ productUpperCode[8 + i] }/${ productList[8 + i].representative }')"></div></a>
 			</div>
 		</c:forEach>
 	</section>

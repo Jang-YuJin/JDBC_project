@@ -3,6 +3,7 @@ package project.shopController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.SQLException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
@@ -52,16 +53,21 @@ public class MemberJoin extends HttpServlet {
 			out.close();
 		}else {
 			if(password.equals(passwordC)) {
-				String birthIn = birth[0] + "-" + birth[1] + "-" + birth[2];
-				dto.setName(name);
-				dto.setId(id);
-				dto.setPassword(passwordC);
-				dto.setTel(tel);
-				dto.setAddress(address);
-				dto.setBirth(Date.valueOf(birthIn));
-				int result = dao.setMemberInfo(dto);
-				System.out.println("member join success" + result);
-				response.sendRedirect("index.jsp");
+				if(dao.isIdUnique(id)) {
+					String birthIn = birth[0] + "-" + birth[1] + "-" + birth[2];
+					dto.setName(name);
+					dto.setId(id);
+					dto.setPassword(passwordC);
+					dto.setTel(tel);
+					dto.setAddress(address);
+					dto.setBirth(Date.valueOf(birthIn));
+					int result = dao.setMemberInfo(dto);
+					System.out.println("member join success" + result);
+					response.sendRedirect("index.jsp");
+				}else {
+					out.println("<script>alert('아이디가 중복됩니다.'); location.href='member/join.jsp';</script>");
+					out.close();
+				}
 			}else{
 				out.println("<script>alert('비밀번호와 비밀번호 확인이 다릅니다.'); location.href='member/join.jsp';</script>");
 				out.close();

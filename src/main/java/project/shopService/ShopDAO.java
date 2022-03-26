@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import project.shopModel.MemberDTO;
 import project.shopModel.ProductDTO;
+import project.shopModel.ReviewDTO;
 
 public class ShopDAO {
 	private PreparedStatement pstmt;
@@ -37,7 +38,7 @@ public class ShopDAO {
 		try {
 			con = dataFactory.getConnection();
 			
-			String query = "select * from tb_product_p";
+			String query = "select * from tb_product1";
 			pstmt = con.prepareStatement(query);
 			ResultSet result = pstmt.executeQuery();
 			while(result.next()) {
@@ -71,7 +72,7 @@ public class ShopDAO {
 		try {
 			con = dataFactory.getConnection();
 			
-			String query = "select * from tb_product_p where code like '%" + code + "%'";
+			String query = "select * from tb_product1 where code like '%" + code + "%'";
 			pstmt = con.prepareStatement(query);
 //			pstmt.setString(1, code);
 			ResultSet result = pstmt.executeQuery();
@@ -103,7 +104,7 @@ public class ShopDAO {
 		int result = -10;
 		try {
 			con = dataFactory.getConnection();
-			String query = "insert into tb_member_p(id, password, name, tel, address, birth)"
+			String query = "insert into tb_member1(id, password, name, tel, address, birth)"
 					+ " values (?, ?, ?, ?, ?, ?)";
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, dto.getId());
@@ -124,5 +125,67 @@ public class ShopDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public boolean isIdUnique(String id) {//중복ID 체크
+		boolean isNull = true;//중복 id가 없다
+		
+		try {
+			con = dataFactory.getConnection();
+			
+			String query = "select * from tb_member1 where id like '" + id + "'";
+			pstmt = con.prepareStatement(query);
+			ResultSet result = pstmt.executeQuery();
+			result.next();
+			if(result != null) {
+				isNull = false;
+				result.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isNull;
+	}
+	
+	public List<ReviewDTO> getReviewList(String code){ //상품코드에 해당하는 tb_review의 모든 레코드를 list에 저장
+		List<ReviewDTO> list = new ArrayList<>();
+		
+		try {
+			con = dataFactory.getConnection();
+			
+			String query = "select * from tb_review1 where code like '" + code + "'";
+			pstmt = con.prepareStatement(query);
+			ResultSet result = pstmt.executeQuery();
+			while(result.next()) {
+				ReviewDTO dto = new ReviewDTO();
+				dto.setReview_id(result.getString("review_id"));
+				dto.setId(result.getString("id"));
+				dto.setCode(result.getString("code"));
+				dto.setTitle(result.getString("title"));
+				dto.setContent(result.getString("content"));
+				dto.setWrite_date(result.getDate("write_date"));
+				list.add(dto);
+			}
+			if(result != null) {
+				result.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }

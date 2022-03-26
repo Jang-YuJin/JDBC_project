@@ -10,6 +10,7 @@
     width: 480px;
     height: 480px;
     background-image: url("https://via.placeholder.com/480x480?text=dummy image");
+    background-size: cover;
 }
 
 #top #imgDesc{
@@ -82,6 +83,15 @@
 #reviewContainer .tableList th, td{
     border-bottom: 1px solid #444444;
     padding: 10px;
+}
+
+#reviewContainer .tableList .title{
+    width: 70%;
+}
+
+#reviewContainer .tableList .writer, .writeD{
+    width: 15%;
+    text-align: center;
 }
 
 #reviewContainer .tablePage{
