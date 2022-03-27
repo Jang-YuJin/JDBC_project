@@ -188,4 +188,49 @@ public class ShopDAO {
 		
 		return list;
 	}
+	
+	public List<ReviewDTO> getReviewList(String code, int nowPage){ //review테이블 페이징에 필요한 list
+		List<ReviewDTO> list = new ArrayList<>();
+		int offset = 1 + (nowPage - 1) * 5;
+		int end = nowPage * 5;
+		
+		try {
+			con = dataFactory.getConnection();
+//			
+//			String query = "select * from (select rownum, r.* from tb_review1 r where code like '" + code + "')"
+//					+ " where rownum >= ?"
+//					+ " and rownum <= ?";
+			String query = "select * from ("
+					+ "    select dense_rank() over(order by v.num desc) as rnk, v.*"
+					+ "    from v_review1 v where code like '" + code + "')"
+					+ "    where rnk between ? and ?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, end);
+			ResultSet result = pstmt.executeQuery();
+			while(result.next()) {
+				ReviewDTO dto = new ReviewDTO();
+				dto.setReview_id(result.getString("review_id"));
+				dto.setId(result.getString("id"));
+				dto.setCode(result.getString("code"));
+				dto.setTitle(result.getString("title"));
+				dto.setContent(result.getString("content"));
+				dto.setWrite_date(result.getDate("write_date"));
+				list.add(dto);
+			}
+			if(result != null) {
+				result.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 }

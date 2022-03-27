@@ -1,3 +1,4 @@
+<%@page import="project.shopController.MoveReviewPage"%>
 <%@page import="project.shopModel.ReviewDTO"%>
 <%@page import="project.shopService.ShopDAO"%>
 <%@page import="project.shopModel.ProductDTO"%>
@@ -18,17 +19,51 @@
     </head>
     <%
     ShopDAO dao = new ShopDAO();
+//     MoveReviewPage movePage = new MoveReviewPage();
+//     List<ReviewDTO> rdtos = (List<ReviewDTO>)request.getAttribute("reviewDTOs");
     
-	String code = request.getParameter("code");
+	String code = request.getParameter("code");//이 페이지 들어오기 전에 보내준 code
 	String[] separationCode = code.split("_");//[0]에는 upperCode, [1]에는 subCode, [2]에는 숫자
 	
-	List<ProductDTO> codeList = dao.getProductList(code);
+	List<ProductDTO> codeList = dao.getProductList(code);//이 페이지는 List가 1개만 있을 것임
+	
+	
+	List<ReviewDTO> pageCnt = dao.getReviewList(code);//마지막 페이지 계산하려고 만든 list
+	int lastPage = pageCnt.size() % 5 == 0 ? pageCnt.size() / 5 : pageCnt.size() / 5 + 1;//마지막 페이지 계산
+	
 
-	List<ReviewDTO> dto = dao.getReviewList(code);
+	Integer nowPage;
+	if(request.getParameter("nowPage") == null){
+		nowPage = 1;
+	}else{
+		nowPage = Integer.valueOf(request.getParameter("nowPage"));
+		if(nowPage <= 1){
+			nowPage = 1;
+		}else if(nowPage >= lastPage){
+			nowPage = lastPage;
+		}
+	}
+	System.out.println("nowPage : " + nowPage);
+	
+	List<ReviewDTO> dto = dao.getReviewList(code, nowPage);
+	System.out.println("dto.size() : " + dto.size());
+	
+	
+	
+// 	List<ReviewDTO> realDTO;
+	
+// 	if(rdtos != null){
+// 		realDTO = rdtos;
+// 	}else{
+// 		realDTO = dto;
+// 	}
     %>
     <c:set var="productCode" value="<%= codeList %>"></c:set>
     <c:set var="separationCode" value="<%= separationCode %>"></c:set>
-    <c:set var="review" value="<%= dto %>"></c:set>
+    <c:set var="nowPage" value="<%= nowPage %>"></c:set>
+    <c:set var="code" value="<%= code %>"></c:set>
+    <c:set var="dto" value="<%= dto %>"></c:set>
+    <c:set var="lastPage" value="<%= lastPage %>"></c:set>
 	<body>
         <header>
             <div id="headerContainer">
@@ -91,15 +126,15 @@
 					<th class="writer">작성자</th>
 					<th class="writeD">작성일</th>
 				</tr>
-				<c:forEach var="i" begin="0" end="4" step="1">
+				<c:forEach var="dto" items="${ dto }">
 					<tr>
-						<td class="title">${ review[i].title }</td>
-						<td class="writer">${ review[i].id }</td>
-						<td class="writeD">${ review[i].write_date }</td>
+						<td class="title"><a href="#">${ dto.title }</a></td>
+						<td class="writer">${ dto.id }</td>
+						<td class="writeD">${ dto.write_date }</td>
 					</tr>
 				</c:forEach>
 			</table>
-			<div class="tablePage"><a class="preBtn" href="#">이전</a> 1 / 3 <a class="nextBtn" href="#">다음</a></div>
+			<div class="tablePage"><a class="preBtn" href="shopdetail.jsp?nowPage=${ nowPage - 1 }&code=${ code }">이전</a> ${ nowPage } / ${ lastPage } <a class="nextBtn" href="shopdetail.jsp?nowPage=${ nowPage + 1 }&code=${ code }">다음</a></div>
 	        <a class="wrtieBtn" href="#">리뷰작성</a>
 		</section>
 		
