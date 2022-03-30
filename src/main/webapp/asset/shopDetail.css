@@ -120,7 +120,15 @@
     text-decoration: none;
 }
 
-#reviewContainer .wrtieBtn{
+#reviewContainer .tablePage .preBtn:hover{
+    text-decoration: underline;
+}
+
+#reviewContainer .tablePage .nextBtn:hover{
+    text-decoration: underline;
+}
+
+#reviewContainer .writeBtn{
     margin: 10px auto;
     width: 100px;
     height: 36px;
@@ -131,6 +139,6 @@
     background-color: #C2B8A3;
 }
 
-#reviewContainer .wrtieBtn:hover{
+#reviewContainer .writeBtn:hover{
     background-color: #E6DDC6;
 }

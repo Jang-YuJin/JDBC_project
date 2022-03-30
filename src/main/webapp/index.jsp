@@ -64,7 +64,7 @@
 	</nav>
 
 	<section>
-		<a href="shopdetail.jsp"><div id="promotion"></div></a>
+		<a href="#"><div id="promotion"></div></a>
 	</section>
 
 	<section class="listImageContainer">

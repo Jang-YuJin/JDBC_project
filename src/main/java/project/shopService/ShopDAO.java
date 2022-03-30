@@ -100,6 +100,50 @@ public class ShopDAO {
 		return list;
 	}
 	
+	public List<ProductDTO> getProductList(String code, int nowPage){ //review테이블 페이징에 필요한 list
+		List<ProductDTO> list = new ArrayList<>();
+		int offset = 1 + (nowPage - 1) * 12;
+		int end = nowPage * 12;
+		
+		try {
+			con = dataFactory.getConnection();
+//			
+//			String query = "select * from (select rownum, r.* from tb_review1 r where code like '" + code + "')"
+//					+ " where rownum >= ?"
+//					+ " and rownum <= ?";
+			String query = "select * from ("
+					+ "    select dense_rank() over(order by v.num desc) as rnk, v.*"
+					+ "    from v_product1 v where code like '%" + code + "%')"
+					+ "    where rnk between ? and ?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, end);
+			ResultSet result = pstmt.executeQuery();
+			while(result.next()) {
+				ProductDTO dto = new ProductDTO();
+				dto.setCode(result.getString("code"));
+				dto.setName(result.getString("name"));
+				dto.setPrice(result.getInt("price"));
+				dto.setRepresentative(result.getString("representative"));
+				dto.setDetails(result.getString("details"));
+				list.add(dto);
+			}
+			if(result != null) {
+				result.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
 	public int setMemberInfo(MemberDTO dto) { //member테이블에 저장
 		int result = -10;
 		try {
@@ -127,32 +171,38 @@ public class ShopDAO {
 		return result;
 	}
 
-	public boolean isIdUnique(String id) {//중복ID 체크
-		boolean isNull = true;//중복 id가 없다
-		
-		try {
-			con = dataFactory.getConnection();
-			
-			String query = "select * from tb_member1 where id like '" + id + "'";
-			pstmt = con.prepareStatement(query);
-			ResultSet result = pstmt.executeQuery();
-			result.next();
-			if(result != null) {
-				isNull = false;
-				result.close();
-			}
-			if(pstmt != null) {
-				pstmt.close();
-			}
-			if(con != null) {
-				con.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return isNull;
-	}
+//	public boolean isIdUnique(String id) {//중복ID 체크
+//		String idC = "";
+//		boolean isDuplId = false; //id 중복 체크 변수, 중복이면 true
+//		try {
+//			con = dataFactory.getConnection();
+//			
+//			String query = "select * from tb_member1 where id = '" + id + "'";
+//			pstmt = con.prepareStatement(query);
+//			ResultSet result = pstmt.executeQuery();
+//			while(result.next()) {
+//				idC = result.getString("id");
+//			}
+//			
+//			if(idC.equals(id)) {
+//				isDuplId = true;
+//			}
+//			
+//			if(result != null) {
+//				result.close();
+//			}
+//			if(pstmt != null) {
+//				pstmt.close();
+//			}
+//			if(con != null) {
+//				con.close();
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return isDuplId;
+//	}
 	
 	public List<ReviewDTO> getReviewList(String code){ //상품코드에 해당하는 tb_review의 모든 레코드를 list에 저장
 		List<ReviewDTO> list = new ArrayList<>();

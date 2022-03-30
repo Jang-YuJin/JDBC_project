@@ -1,4 +1,3 @@
-<%@page import="project.shopController.MoveReviewPage"%>
 <%@page import="project.shopModel.ReviewDTO"%>
 <%@page import="project.shopService.ShopDAO"%>
 <%@page import="project.shopModel.ProductDTO"%>
@@ -19,13 +18,11 @@
     </head>
     <%
     ShopDAO dao = new ShopDAO();
-//     MoveReviewPage movePage = new MoveReviewPage();
-//     List<ReviewDTO> rdtos = (List<ReviewDTO>)request.getAttribute("reviewDTOs");
     
 	String code = request.getParameter("code");//이 페이지 들어오기 전에 보내준 code
 	String[] separationCode = code.split("_");//[0]에는 upperCode, [1]에는 subCode, [2]에는 숫자
 	
-	List<ProductDTO> codeList = dao.getProductList(code);//이 페이지는 List가 1개만 있을 것임
+	List<ProductDTO> codeList = dao.getProductList(code);//이 페이지에 해당하는 상품의 List가 1개만 있을 것임
 	
 	
 	List<ReviewDTO> pageCnt = dao.getReviewList(code);//마지막 페이지 계산하려고 만든 list
@@ -45,18 +42,9 @@
 	}
 	System.out.println("nowPage : " + nowPage);
 	
-	List<ReviewDTO> dto = dao.getReviewList(code, nowPage);
+	List<ReviewDTO> dto = dao.getReviewList(code, nowPage);//리뷰조회에서 보여지는 list
 	System.out.println("dto.size() : " + dto.size());
-	
-	
-	
-// 	List<ReviewDTO> realDTO;
-	
-// 	if(rdtos != null){
-// 		realDTO = rdtos;
-// 	}else{
-// 		realDTO = dto;
-// 	}
+
     %>
     <c:set var="productCode" value="<%= codeList %>"></c:set>
     <c:set var="separationCode" value="<%= separationCode %>"></c:set>
@@ -135,7 +123,7 @@
 				</c:forEach>
 			</table>
 			<div class="tablePage"><a class="preBtn" href="shopdetail.jsp?nowPage=${ nowPage - 1 }&code=${ code }">이전</a> ${ nowPage } / ${ lastPage } <a class="nextBtn" href="shopdetail.jsp?nowPage=${ nowPage + 1 }&code=${ code }">다음</a></div>
-	        <a class="wrtieBtn" href="#">리뷰작성</a>
+	        <a class="writeBtn" href="#">리뷰작성</a>
 		</section>
 		
 		<footer>

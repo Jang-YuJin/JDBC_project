@@ -5,7 +5,7 @@
 <head>
     <link rel="stylesheet" href="../asset/join.css">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>BANANAMILK</title>
 </head>
 <body>
 	<header>

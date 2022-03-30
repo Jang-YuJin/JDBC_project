@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
@@ -53,7 +54,10 @@ public class MemberJoin extends HttpServlet {
 			out.close();
 		}else {
 			if(password.equals(passwordC)) {
-				if(dao.isIdUnique(id)) {
+//				if(dao.isIdUnique(id)) {
+//					out.println("<script>alert('아이디가 중복됩니다.'); location.href='member/join.jsp';</script>");
+//					out.close();
+//				}else {
 					String birthIn = birth[0] + "-" + birth[1] + "-" + birth[2];
 					dto.setName(name);
 					dto.setId(id);
@@ -62,12 +66,9 @@ public class MemberJoin extends HttpServlet {
 					dto.setAddress(address);
 					dto.setBirth(Date.valueOf(birthIn));
 					int result = dao.setMemberInfo(dto);
-					System.out.println("member join success" + result);
+					System.out.println(result);
 					response.sendRedirect("index.jsp");
-				}else {
-					out.println("<script>alert('아이디가 중복됩니다.'); location.href='member/join.jsp';</script>");
-					out.close();
-				}
+//				}
 			}else{
 				out.println("<script>alert('비밀번호와 비밀번호 확인이 다릅니다.'); location.href='member/join.jsp';</script>");
 				out.close();

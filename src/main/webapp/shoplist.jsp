@@ -19,13 +19,7 @@
 </head>
 <%
 	ShopDAO dao = new ShopDAO();
-	List<ProductDTO> list = dao.getProductList();
-	ShopController controller = new ShopController();
-	List<String> upperCode = controller.getUpperCode(list);
-	List<String> subCode = controller.getSubCode(list);
-	List<String> numCode = controller.getNumCode(list);
-	
-	//여기서부터
+
 	String upper = request.getParameter("upperCategory");
 	System.out.println("upper : " + upper);
 	String sub = request.getParameter("subCategory");
@@ -36,17 +30,37 @@
 	if(!"".equals(sub) && sub != null){
 		code += ("_" + sub);
 	}
-	//여기까지 메소드로 만들지 고민 좀...
 	
 	List<ProductDTO> codeList = dao.getProductList(code);
+	
+	
+	
+	
+	int lastPage = codeList.size() % 12 == 0 ? codeList.size() / 12 : codeList.size() / 12 + 1;//마지막 페이지 계산
+	
+
+	Integer nowPage;
+	if(request.getParameter("nowPage") == null){
+		nowPage = 1;
+	}else{
+		nowPage = Integer.valueOf(request.getParameter("nowPage"));
+		if(nowPage <= 1){
+			nowPage = 1;
+		}else if(nowPage >= lastPage){
+			nowPage = lastPage;
+		}
+	}
+	System.out.println("nowPage : " + nowPage);
+	
+	List<ProductDTO> dto = dao.getProductList(code, nowPage);
+	System.out.println("shoplist에 dto.size() = " + dto.size());
 %>
-<c:set var="productList" value="<%= list %>"></c:set>
-<c:set var="productUpperCode" value="<%= upperCode %>"></c:set>
-<c:set var="productSubCode" value="<%= subCode %>"></c:set>
-<c:set var="productNumCode" value="<%= numCode %>"></c:set>
+<%-- <c:set var="productList" value="<%= list %>"></c:set> --%>
 <c:set var="upper" value="<%= upper %>"></c:set>
-<c:set var="sub" value="<%= sub %>"></c:set>
 <c:set var="productCode" value="<%= codeList %>"></c:set>
+<c:set var="lastPage" value="<%= lastPage %>"></c:set>
+<c:set var="nowPage" value="<%= nowPage %>"></c:set>
+<c:set var="dto" value="<%= dto %>"></c:set>
 <body>
 	<header>
 		<div id="headerContainer">
@@ -134,18 +148,21 @@
         
         <section id="imgContainer">
             <div class="listImageContainer">
-            	<c:forEach var="i" begin="0" end="3" step="1">
-	                <div>
-		                <c:forEach var="k" begin="${ (i * 3) + 1 }" end="${ (i + 1) * 3 }" step="1">
-		                    <a class="product" href="shopdetail.jsp?code=${ productCode[k].code }">
-		                        <div class="image" style="background-image: url('./asset/img/${ upper }/${ productCode[k].representative }')"></div>
-		                        <div>${ productCode[k].name }</div>
-		                        <div>${ productCode[k].price }원</div>
+            	<c:forEach var="i" begin="1" end="4" step="1">
+	                <div class="listImageDContainer">
+		                <c:forEach var="k" begin="1" end="3" step="1">
+		                    <a class="product" href="shopdetail.jsp?code=${ dto[(i - 1) * 3 + k - 1].code }">
+		                        <div class="imageD" style="background-image: url('./asset/img/${ upper }/${ dto[(i - 1) * 3 + k - 1].representative }')"></div>
+		                        <span class = "imageTextContainer">
+			                        <div class="imageText">${ dto[(i - 1) * 3 + k - 1].name }</div>
+			                        <div class="imageText">${ dto[(i - 1) * 3 + k - 1].price }원</div>
+		                        </span>
 		                    </a>
 		                </c:forEach>
-	                </div>
-                </c:forEach>
-            </div>
+		            </div>
+		        </c:forEach>
+		        <div class="listPage"><a class="preBtn" href="shoplist.jsp?nowPage=${ nowPage - 1 }&upperCategory=${ upper }">이전</a> ${ nowPage } / ${ lastPage } <a class="nextBtn" href="shoplist.jsp?nowPage=${ nowPage + 1 }&upperCategory=${ upper }">다음</a></div>
+		    </div>
         </section>
     </div>
 
