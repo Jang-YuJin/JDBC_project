@@ -57,10 +57,12 @@
 %>
 <%-- <c:set var="productList" value="<%= list %>"></c:set> --%>
 <c:set var="upper" value="<%= upper %>"></c:set>
+<c:set var="sub" value="<%= sub %>"></c:set>
 <c:set var="productCode" value="<%= codeList %>"></c:set>
 <c:set var="lastPage" value="<%= lastPage %>"></c:set>
 <c:set var="nowPage" value="<%= nowPage %>"></c:set>
 <c:set var="dto" value="<%= dto %>"></c:set>
+<c:set var="doLoop" value="false"></c:set>
 <body>
 	<header>
 		<div id="headerContainer">
@@ -151,17 +153,22 @@
             	<c:forEach var="i" begin="1" end="4" step="1">
 	                <div class="listImageDContainer">
 		                <c:forEach var="k" begin="1" end="3" step="1">
-		                    <a class="product" href="shopdetail.jsp?code=${ dto[(i - 1) * 3 + k - 1].code }">
-		                        <div class="imageD" style="background-image: url('./asset/img/${ upper }/${ dto[(i - 1) * 3 + k - 1].representative }')"></div>
-		                        <span class = "imageTextContainer">
-			                        <div class="imageText">${ dto[(i - 1) * 3 + k - 1].name }</div>
-			                        <div class="imageText">${ dto[(i - 1) * 3 + k - 1].price }원</div>
-		                        </span>
-		                    </a>
+			                    <c:if test="${ dto[(i - 1) * 3 + k - 1].code eq null }">
+			                    	<c:set var="doLoop" value="true"></c:set>
+			                    </c:if>
+		                	<c:if test="${ not doLoop }">
+			                    <a class="product" href="shopdetail.jsp?code=${ dto[(i - 1) * 3 + k - 1].code }">
+			                        <div class="imageD" style="background-image: url('./asset/img/${ upper }/${ dto[(i - 1) * 3 + k - 1].representative }')"></div>
+			                        <span class = "imageTextContainer">
+				                        <div class="imageText">${ dto[(i - 1) * 3 + k - 1].name }</div>
+				                        <div class="imageText">${ dto[(i - 1) * 3 + k - 1].price }원</div>
+			                        </span>
+			                    </a>
+		                    </c:if>
 		                </c:forEach>
 		            </div>
 		        </c:forEach>
-		        <div class="listPage"><a class="preBtn" href="shoplist.jsp?nowPage=${ nowPage - 1 }&upperCategory=${ upper }">이전</a> ${ nowPage } / ${ lastPage } <a class="nextBtn" href="shoplist.jsp?nowPage=${ nowPage + 1 }&upperCategory=${ upper }">다음</a></div>
+		        <div class="listPage"><a class="preBtn" href="shoplist.jsp?nowPage=${ nowPage - 1 }&upperCategory=${ upper }&subCategory=${ sub }">이전</a> ${ nowPage } / ${ lastPage } <a class="nextBtn" href="shoplist.jsp?nowPage=${ nowPage + 1 }&upperCategory=${ upper }&subCategory=${ sub }">다음</a></div>
 		    </div>
         </section>
     </div>
